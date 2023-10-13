@@ -116,7 +116,7 @@ def File_read_clean():
     
     ## model data
     md = xr.open_dataset('参考数据/indww_histsoc_annual_1901-2005.nc',decode_times=False)
-    # 模型中1965-2005年的工业取水数据
+    # select data from 1965 to 2005
     mdind = md.sel(lon =slice(74.25,134.75),lat= slice(53.75,18.25)).indww[64:,:,:]
     mdind= mdind.to_dataset()
     mdind = mdind.rename({'indww':'iww'})
@@ -126,7 +126,7 @@ def File_read_clean():
     zfdt = pd.read_excel('../zhoufeng/industry_water_use_shilevel1965_2013.xlsx')
     idsz = pd.read_csv('../zhoufeng/per_id.csv')
     idsz.rename(columns={'Perfecture':'City_ID'},inplace=True)
-    zfdt1 = zfdt.merge(idsz[['ID','City_ID']],on='City_ID',how='left')[:16709]## 去掉中国
+    zfdt1 = zfdt.merge(idsz[['ID','City_ID']],on='City_ID',how='left')[:16709] 
     zfdt1['ID'] =zfdt1['ID'].map(lambda x:int(x))
     zfdt1.rename(columns={'City_ID':'Perfecture','ID':'City_id','Year':'年份'},inplace=True)
     
@@ -200,7 +200,7 @@ def plot_figure2():
     x0= np.arange(0, 6, 0.5)
     y0=x0
 
-    fig = plt.figure(figsize=(13,6))  #创建页面fig=plt.figure(figsize=(8,6),dpi=100)
+    fig = plt.figure(figsize=(13,6)) 
 
     ### Panel a ###
     ax1 = fig.add_subplot(1,2,1)
@@ -310,7 +310,6 @@ def plot_figure2():
     ## save the figure
     plt.savefig('08pre/Figure_test/数据对比_重新画图.jpg',dpi=300, bbox_inches='tight')
     return
-
 
 
 if __name__=="__main__":
